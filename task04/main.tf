@@ -101,7 +101,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
     publisher = "canonical"
     offer     = "UbuntuServer"
     sku       = var.vm_sku
-    version   = var.vm_os_version
+    version   = "latest"
   }
 
   disable_password_authentication = false
