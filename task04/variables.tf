@@ -23,6 +23,12 @@ variable "vm_username" {
   type        = string
 }
 
+variable "vm_password" {
+  description = "VM Password"
+  type        = string
+  sensitive   = true
+}
+
 variable "location" {
   description = "Azure region to deploy resources"
   type        = string
