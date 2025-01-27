@@ -1,0 +1,18 @@
+rg_name          = "cmaz-cc456562-mod4-rg"
+vnet_name        = "cmaz-cc456562-mod4-vnet"
+subnet_name      = "frontend"
+vm_name          = "cmaz-cc456562-mod4-vm"
+vm_username      = "azureuser"
+vm_password      = "Task04!"
+nic_name         = "cmaz-cc456562-mod4-nic"
+location         = "eastus"
+pip_name         = "cmaz-cc456562-mod4-pip"
+dns_name         = "cmaz-cc456562-mod4-nginx"
+nsg_name         = "cmaz-cc456562-mod4-nsg"
+nsg_inbound_http = "AllowHTTP"
+nsg_inbound_ssh  = "AllowSSH"
+vm_os_version    = "ubuntu-24_04-lts"
+vm_sku           = "Standard_F2s_v2"
+tags = {
+  Creator = "bibarys_mukhambetiyar@epam.com"
+}
