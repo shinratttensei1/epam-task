@@ -74,6 +74,11 @@ variable "vm_sku" {
   type        = string
 }
 
+variable "ssh_public_key_path" {
+  description = "SSH Public Key Path"
+  type        = string
+}
+
 variable "tags" {
   description = "Tags to associate with resources"
   type        = map(string)

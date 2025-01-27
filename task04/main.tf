@@ -95,6 +95,11 @@ resource "azurerm_linux_virtual_machine" "vm" {
     storage_account_type = "Standard_LRS"
   }
 
+  admin_ssh_key {
+    username   = var.vm_username
+    public_key = file(var.ssh_public_key_path)
+  }
+
   source_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
