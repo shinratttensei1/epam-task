@@ -97,11 +97,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
     storage_account_type = "Standard_LRS"
   }
 
-  admin_ssh_key {
-    username   = var.vm_username
-    public_key = file(var.ssh_public_key_path)
-  }
-
   source_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
@@ -117,11 +112,10 @@ resource "azurerm_linux_virtual_machine" "vm" {
     ]
 
     connection {
-      type        = "ssh"
-      user        = var.vm_username
-      password    = var.vm_password
-      private_key = file("~/.ssh/id_rsa")
-      host        = azurerm_public_ip.pip.ip_address
+      type     = "ssh"
+      user     = var.vm_username
+      password = var.vm_password
+      host     = azurerm_public_ip.pip.ip_address
     }
   }
 } 
