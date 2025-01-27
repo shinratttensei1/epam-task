@@ -109,11 +109,11 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
 
   connection {
-      type     = "ssh"
-      user     = var.vm_username
-      password = var.vm_password
-      host     = azurerm_public_ip.pip.ip_address
-    }
+    type     = "ssh"
+    user     = var.vm_username
+    password = var.vm_password
+    host     = azurerm_public_ip.pip.ip_address
+  }
 
   provisioner "remote-exec" {
     inline = [
