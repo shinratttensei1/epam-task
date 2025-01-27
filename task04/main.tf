@@ -100,8 +100,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   source_image_reference {
     publisher = "canonical"
     offer     = "UbuntuServer"
-    sku       = "24_04-lts-gen2"
-    version   = "latest"
+    sku       = var.vm_sku
+    version   = var.vm_os_version
   }
 
   disable_password_authentication = false
