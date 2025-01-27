@@ -14,5 +14,5 @@ vm_os_version    = "ubuntu-24_04-lts"
 vm_sku           = "Standard_F2s_v2"
 
 tags = {
-  Creator = "bibarys_mukhambetiyar"
+  Creator = "bibarys_mukhambetiyar@epam.com"
 }
