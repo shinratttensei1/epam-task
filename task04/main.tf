@@ -73,6 +73,7 @@ resource "azurerm_network_interface" "nic" {
     name                          = var.nic_name
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.pip.id
   }
 }
 
@@ -106,18 +107,19 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   disable_password_authentication = false
 
+
+  connection {
+      type     = "ssh"
+      user     = var.vm_username
+      password = var.vm_password
+      host     = azurerm_public_ip.pip.ip_address
+    }
+
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get update",
       "sudo apt-get install -y nginx",
       "sudo systemctl start nginx"
     ]
-
-    connection {
-      type     = "ssh"
-      user     = var.vm_username
-      password = var.vm_password
-      host     = azurerm_public_ip.pip.ip_address
-    }
   }
 } 
