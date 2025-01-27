@@ -70,7 +70,7 @@ resource "azurerm_network_interface" "nic" {
   tags                = var.tags
 
   ip_configuration {
-    name                          = "internal"
+    name                          = var.nic_name
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
   }
