@@ -104,6 +104,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
     version   = "latest"
   }
 
+  disable_password_authentication = false
+
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get update",
