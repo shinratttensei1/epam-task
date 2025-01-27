@@ -81,11 +81,6 @@ resource "azurerm_network_interface_security_group_association" "nic_nsg" {
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
-data "azurerm_image" "ubuntu" {
-  name                = var.vm_os_version
-  resource_group_name = azurerm_resource_group.rg.name
-}
-
 resource "azurerm_linux_virtual_machine" "vm" {
   name                  = var.vm_name
   resource_group_name   = azurerm_resource_group.rg.name
@@ -94,13 +89,17 @@ resource "azurerm_linux_virtual_machine" "vm" {
   admin_username        = var.vm_username
   admin_password        = var.vm_password
   network_interface_ids = [azurerm_network_interface.nic.id]
-  tags                  = var.tags
-
-  source_image_id = data.azurerm_image.ubuntu.id
 
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "24_04-lts-gen2"
+    version   = "latest"
   }
 
   provisioner "remote-exec" {
