@@ -19,21 +19,23 @@ resource_groups = {
 app_service_plans = {
   asp1 = {
     name               = "cmaz-cc456562-mod5-asp-01"
-    sku_tier           = "PremiumV3"
-    sku_size           = "P0v3"
+    sku_name           = "P0v3"
+    os_type            = "Windows"
     worker_count       = 2
     resource_group_key = "rg1"
     tags               = { Creator = "bibarys_mukhambetiyar@epam.com" }
   }
   asp2 = {
     name               = "cmaz-cc456562-mod5-asp-02"
-    sku_tier           = "PremiumV3"
-    sku_size           = "P1v3"
+    sku_name           = "P1v3"
+    os_type            = "Windows"
     worker_count       = 1
     resource_group_key = "rg2"
     tags               = { Creator = "bibarys_mukhambetiyar@epam.com" }
   }
 }
+
+
 
 app_services = {
   app1 = {

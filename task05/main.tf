@@ -16,12 +16,13 @@ module "app_service_plans" {
   name                = each.value.name
   location            = module.resource_groups[each.value.resource_group_key].location
   resource_group_name = module.resource_groups[each.value.resource_group_key].name
-
-  sku_tier     = each.value.sku_tier
-  sku_size     = each.value.sku_size
-  worker_count = each.value.worker_count
-  tags         = each.value.tags
+  os_type             = each.value.os_type
+  sku_name            = each.value.sku_name
+  worker_count        = each.value.worker_count
+  tags                = each.value.tags
 }
+
+
 
 locals {
   ip_restrictions = [
@@ -48,12 +49,13 @@ module "app_services" {
   name                = each.value.name
   location            = module.resource_groups[each.value.resource_group_key].location
   resource_group_name = module.resource_groups[each.value.resource_group_key].name
-  app_service_plan_id = module.app_service_plans[each.value.app_service_plan_key].id
+  app_service_plan_id = module.app_service_plans[each.value.app_service_plan_key].id # ✅ FIXED
 
   ip_restrictions = local.ip_restrictions
 
   tags = each.value.tags
 }
+
 
 module "traffic_manager" {
   source = "./modules/traffic_manager"

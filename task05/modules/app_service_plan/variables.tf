@@ -1,35 +1,35 @@
 variable "name" {
   type        = string
-  description = "The name of the App Service Plan"
-}
-
-variable "resource_group_name" {
-  type        = string
-  description = "The name of the resource group"
+  description = "The name of the App Service Plan."
 }
 
 variable "location" {
   type        = string
-  description = "The location of the App Service Plan"
+  description = "The Azure region where the App Service Plan will be deployed."
 }
 
-variable "sku_tier" {
+variable "resource_group_name" {
   type        = string
-  description = "The pricing tier of the App Service Plan (e.g. PremiumV3)"
+  description = "The name of the resource group for this App Service Plan."
 }
 
-variable "sku_size" {
+variable "os_type" {
   type        = string
-  description = "The instance size of the App Service Plan (e.g. P1v3)"
+  description = "The operating system type. Possible values: Windows, Linux."
+  default     = "Windows"
+}
+
+variable "sku_name" {
+  type        = string
+  description = "The SKU for the App Service Plan."
 }
 
 variable "worker_count" {
   type        = number
-  description = "Number of workers (capacity)"
+  description = "The number of workers allocated."
 }
 
 variable "tags" {
   type        = map(string)
-  default     = {}
-  description = "A map of tags to assign to the App Service Plan"
+  description = "Tags to assign to the App Service Plan."
 }
