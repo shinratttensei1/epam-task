@@ -6,7 +6,6 @@ resource "azurerm_windows_web_app" "this" {
 
   site_config {
 
-  # Dynamic blocks for IP restrictions
     dynamic "ip_restriction" {
         for_each = var.ip_restrictions
         content {
@@ -19,8 +18,5 @@ resource "azurerm_windows_web_app" "this" {
     }
   }
     
-
-  # By specifying these ip_restriction blocks, all other traffic is denied
-
-  tags = var.tags
+      tags = var.tags
 }

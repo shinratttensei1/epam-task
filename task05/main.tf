@@ -1,8 +1,3 @@
-#########################
-# Resource Groups
-#########################
-
-# Create all Resource Groups via for_each
 module "resource_groups" {
   source = "./modules/resource_group"
 
@@ -13,11 +8,6 @@ module "resource_groups" {
   tags     = each.value.tags
 }
 
-#########################
-# App Service Plans
-#########################
-
-# Create all App Service Plans via for_each
 module "app_service_plans" {
   source = "./modules/app_service_plan"
 
@@ -33,15 +23,6 @@ module "app_service_plans" {
   tags         = each.value.tags
 }
 
-#########################
-# App Services (Windows)
-#########################
-
-# We define IP restrictions to allow:
-#  - The verification agent IP: 18.153.146.156
-#  - The Azure Traffic Manager service tag
-# And deny everything else by default.
-
 locals {
   ip_restrictions = [
     {
@@ -56,12 +37,9 @@ locals {
       action      = "Allow"
       priority    = 200
     }
-    # By defining these explicitly, traffic not matching these rules
-    # will be denied automatically.
   ]
 }
 
-# Create all Windows Web Apps via for_each
 module "app_services" {
   source = "./modules/app_service"
 
@@ -77,12 +55,6 @@ module "app_services" {
   tags = each.value.tags
 }
 
-#########################
-# Traffic Manager
-#########################
-# We want a single Traffic Manager profile with two endpoints
-# pointing to app1 and app2.
-
 module "traffic_manager" {
   source = "./modules/traffic_manager"
 
@@ -92,7 +64,6 @@ module "traffic_manager" {
 
   tags = var.traffic_manager.tags
 
-  # Define endpoints dynamically as a list
   endpoints = [
     {
       name               = "endpoint-app1"
