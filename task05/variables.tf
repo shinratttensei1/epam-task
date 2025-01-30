@@ -1,4 +1,5 @@
 variable "resource_groups" {
+  description = "Resource Groups to create"
   type = map(object({
     name     = string
     location = string
@@ -7,6 +8,7 @@ variable "resource_groups" {
 }
 
 variable "app_service_plans" {
+  description = "App Service Plans to create"
   type = map(object({
     name               = string
     sku_tier           = string
@@ -18,6 +20,7 @@ variable "app_service_plans" {
 }
 
 variable "app_services" {
+  description = "Web Apps to create"
   type = map(object({
     name                 = string
     resource_group_key   = string
@@ -27,6 +30,7 @@ variable "app_services" {
 }
 
 variable "traffic_manager" {
+  description = "Traffic Manager profile to create"
   type = object({
     name               = string
     resource_group_key = string

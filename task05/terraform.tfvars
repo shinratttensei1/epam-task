@@ -20,7 +20,7 @@ app_service_plans = {
   asp1 = {
     name               = "cmaz-cc456562-mod5-asp-01"
     sku_tier           = "PremiumV3"
-    sku_size           = "P0v3" # Per task parameter
+    sku_size           = "P0v3"
     worker_count       = 2
     resource_group_key = "rg1"
     tags               = { Creator = "bibarys_mukhambetiyar@epam.com" }
@@ -56,3 +56,18 @@ traffic_manager = {
   routing_method     = "Performance"
   tags               = { Creator = "bibarys_mukhambetiyar@epam.com" }
 }
+
+ip_restrictions = [
+  {
+    name       = "allow-ip"
+    ip_address = "18.153.146.156/32"
+    action     = "Allow"
+    priority   = 100
+  },
+  {
+    name        = "allow-tm"
+    service_tag = "AzureTrafficManager"
+    action      = "Allow"
+    priority    = 200
+  }
+]
