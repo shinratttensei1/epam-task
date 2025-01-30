@@ -28,7 +28,7 @@ variable "ip_restrictions" {
       priority    = optional(number)
     })
   )
-  default     = []
+  default = []
 }
 
 variable "tags" {

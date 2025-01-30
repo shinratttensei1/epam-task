@@ -21,7 +21,7 @@ resource "azurerm_traffic_manager_profile" "this" {
 }
 
 resource "azurerm_traffic_manager_azure_endpoint" "this" {
-  count = length(var.endpoints)  # Single resource, multiple endpoints
+  count = length(var.endpoints) # Single resource, multiple endpoints
 
   name                 = var.endpoints[count.index].name
   profile_id           = azurerm_traffic_manager_profile.this.id
