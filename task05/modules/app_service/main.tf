@@ -2,9 +2,10 @@ resource "azurerm_windows_web_app" "this" {
   name                = var.name
   location            = var.location
   resource_group_name = var.resource_group_name
-  service_plan_id     = var.app_service_plan_id # ✅ FIXED (previously service_plan_id)
+  service_plan_id     = var.app_service_plan_id
 
   site_config {
+    always_on = true
 
     dynamic "ip_restriction" {
       for_each = var.ip_restrictions
@@ -16,6 +17,8 @@ resource "azurerm_windows_web_app" "this" {
         priority    = ip_restriction.value.priority
       }
     }
+
+    ip_restriction_default_action = "Deny"
   }
 
   tags = var.tags
