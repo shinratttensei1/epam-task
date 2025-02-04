@@ -23,7 +23,7 @@ resource "azurerm_key_vault_secret" "kv_secret" {
 
 resource "azurerm_key_vault_secret" "kv_secret_username" {
   name         = var.kv_secret_name_for_sql_admin_name
-  value        = "sqladmin"  
+  value        = "sqladmin"
   key_vault_id = data.azurerm_key_vault.existing_kv.id
 }
 

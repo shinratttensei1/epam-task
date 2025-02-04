@@ -31,7 +31,7 @@ variable "app_dotnet_version" {
 variable "sql_connection_string" {
   description = "The connection string for the SQL Database."
   type        = string
-  sensitive = true
+  sensitive   = true
 }
 
 variable "sku_name" {
