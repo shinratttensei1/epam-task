@@ -1,7 +1,8 @@
 locals {
-  sql_server_name = var.sql_server_name
-  sql_db_name     = var.sql_db_name
-  rg_name         = var.rg_name
+  prefix          = "cmaz-cc456562-mod6"
+  sql_server_name = format("%s-sql", local.prefix)
+  sql_db_name     = format("%s-sqldb", local.prefix)
+  rg_name         = format("%s-rg", local.prefix)
 }
 
 
