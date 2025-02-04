@@ -21,6 +21,12 @@ resource "azurerm_key_vault_secret" "kv_secret" {
   key_vault_id = data.azurerm_key_vault.existing_kv.id
 }
 
+resource "azurerm_key_vault_secret" "kv_secret_username" {
+  name         = var.kv_secret_name_for_sql_admin_name
+  value        = "sqladmin"  
+  key_vault_id = data.azurerm_key_vault.existing_kv.id
+}
+
 resource "azurerm_mssql_server" "sql_server" {
   name                         = local.sql_server_name
   resource_group_name          = local.rg_name
