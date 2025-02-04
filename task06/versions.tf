@@ -10,6 +10,6 @@ terraform {
 
 provider "azurerm" {
   features {}
-  use_cli = true 
+  use_cli = true
 }
 
