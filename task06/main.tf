@@ -31,7 +31,7 @@ module "sql" {
 module "webapp" {
   source                = "./modules/webapp"
   location              = var.location
-  rg_name               = local.rg_name
+  rg_name               = azurerm_resource_group.rg.name
   asp_name              = local.asp_name
   resource_group_name   = azurerm_resource_group.rg.name
   sku_name              = var.asp_sku
