@@ -23,8 +23,9 @@ module "sql" {
   kv_secret_name_for_sql_admin_password = var.kv_secret_name_for_sql_admin_password
   verification_agent_ip                 = var.verification_agent_ip
 
-  tenant_id = data.azurerm_client_config.current.tenant_id
-  tags      = var.tags
+  allowed_ip_address = var.allowed_ip_address
+  tenant_id          = data.azurerm_client_config.current.tenant_id
+  tags               = var.tags
 }
 
 module "webapp" {

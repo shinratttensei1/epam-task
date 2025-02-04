@@ -31,11 +31,18 @@ resource "azurerm_mssql_server" "sql_server" {
   tags                         = var.tags
 }
 
-resource "azurerm_mssql_firewall_rule" "sql_fw_rule" {
-  name             = var.sql_server_fw_rulename
+resource "azurerm_mssql_firewall_rule" "allow_azure_services" {
+  name             = "Allow-Azure-Services"
   server_id        = azurerm_mssql_server.sql_server.id
-  start_ip_address = var.verification_agent_ip
-  end_ip_address   = var.verification_agent_ip
+  start_ip_address = "0.0.0.0"
+  end_ip_address   = "0.0.0.0"
+}
+
+resource "azurerm_mssql_firewall_rule" "allow_specific_ip" {
+  name             = "Allow-Specific-IP"
+  server_id        = azurerm_mssql_server.sql_server.id
+  start_ip_address = var.allowed_ip_address 
+  end_ip_address   = var.allowed_ip_address
 }
 
 resource "azurerm_mssql_database" "sql_db" {

@@ -55,3 +55,7 @@ variable "verification_agent_ip" {
   type        = string
 }
 
+variable "allowed_ip_address" {
+  description = "The IP address to allow in the SQL Server firewall."
+  type        = string
+}

@@ -63,3 +63,8 @@ variable "tags" {
   type        = map(string)
 }
 
+variable "allowed_ip_address" {
+  description = "The IP address that should be allowed to access the SQL Server."
+  type        = string
+}
+
