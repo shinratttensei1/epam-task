@@ -31,5 +31,6 @@ resource "azurerm_linux_web_app" "webapp" {
     SQLAZURECONNSTR = var.sql_connection_string
   }
 
+
   tags = var.tags
 }
