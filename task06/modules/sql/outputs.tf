@@ -1,4 +1,4 @@
-output "sql_server_fqdnapp_hostname" {
+output "sql_server_fqdn" {
   value = azurerm_mssql_server.sql_server.fully_qualified_domain_name
 }
 
