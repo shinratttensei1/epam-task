@@ -13,7 +13,7 @@ asp_sku = "P0v3"
 
 app_dotnet_version = "8.0"
 
-allowed_ip_address = "104.28.241.139"
+allowed_ip_address = "18.153.146.156"
 
 tags = {
   Creator = "bibarys_mukhambetiyar@epam.com"
