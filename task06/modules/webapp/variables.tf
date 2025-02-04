@@ -3,6 +3,16 @@ variable "location" {
   type        = string
 }
 
+variable "rg_name" {
+  description = "The name of the Resource Group in which all resources will be created."
+  type        = string
+}
+
+variable "asp_name" {
+  description = "The name of the App Service Plan."
+  type        = string
+}
+
 variable "resource_group_name" {
   description = "The name of the Resource Group in which all resources will be created."
   type        = string
