@@ -26,7 +26,7 @@ resource "azurerm_linux_web_app" "webapp" {
       dotnet_version = var.app_dotnet_version
     }
   }
-  
+
   app_settings = {
     SQLAZURECONNSTR = var.sql_connection_string
   }
