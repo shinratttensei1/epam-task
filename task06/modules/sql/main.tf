@@ -1,6 +1,7 @@
 resource "random_password" "password" {
   length  = 16
   special = true
+  override_special = "!@#%&*"
 }
 
 data "azurerm_key_vault" "existing_kv" {
@@ -27,6 +28,7 @@ resource "azurerm_mssql_server" "sql_server" {
   version                      = "12.0"
   administrator_login          = "sqladmin"
   administrator_login_password = random_password.password.result
+  minimum_tls_version          = "1.2"
   tags                         = var.tags
 
 }
