@@ -10,7 +10,7 @@ data "azurerm_client_config" "current" {}
 module "sql" {
   source                 = "./modules/sql"
   location               = var.location
-  rg_name                = local.rg_name
+  rg_name                = azurerm_resource_group.rg.name
   sql_server_name        = local.sql_server_name
   sql_db_name            = local.sql_db_name
   sql_db_sm              = var.sql_db_sm
@@ -31,7 +31,7 @@ module "sql" {
 module "webapp" {
   source                = "./modules/webapp"
   location              = var.location
-  resource_group_name   = local.rg_name
+  resource_group_name   = azurerm_resource_group.rg.name
   sku_name              = var.asp_sku
   app_service_plan_name = local.asp_name
   app_service_plan_sku  = var.asp_sku
