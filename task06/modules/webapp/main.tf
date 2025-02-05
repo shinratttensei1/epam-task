@@ -21,6 +21,7 @@ resource "azurerm_linux_web_app" "webapp" {
     }
   }
 
+
   connection_string {
     name  = "SQLAZURECONNSTR"
     type  = "SQLAzure"
