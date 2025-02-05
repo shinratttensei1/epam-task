@@ -22,7 +22,7 @@ resource "azurerm_linux_web_app" "webapp" {
   }
 
   app_settings = {
-    "SQLAZURECONNSTR_DefaultConnection" = var.sql_connection_string
+    "CUSTOM_SQL_CONNECTION_STRING" = var.sql_connection_string
   }
 
 
