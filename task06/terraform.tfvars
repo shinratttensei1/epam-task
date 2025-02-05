@@ -1,4 +1,4 @@
-location = "eastus"
+location = "eastus2"
 
 existingkv_rgname = "cmaz-cc456562-mod6-kv-rg"
 existingkv_name   = "cmaz-cc456562-mod6-kv"
