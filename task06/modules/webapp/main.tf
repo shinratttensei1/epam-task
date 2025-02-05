@@ -21,10 +21,11 @@ resource "azurerm_linux_web_app" "webapp" {
     }
   }
 
-  app_settings = {
-    "SQLAZURECONNSTR" = var.sql_connection_string
+  connection_string {
+    name  = "SQLAZURECONNSTR"
+    type  = "SQLAzure"
+    value = var.sql_connection_string
   }
-
 
   tags = var.tags
 }
