@@ -43,7 +43,7 @@ module "acr" {
   git_pat               = var.git_pat
   image_name            = local.image_name
 
-  tags = local.tags
+  tags = var.tags
 }
 
 module "aks" {
@@ -52,11 +52,11 @@ module "aks" {
   rg_name      = azurerm_resource_group.rg.name
   rg_location  = azurerm_resource_group.rg.location
   dns_prefix   = local.dns_prefix
-  node_count   = local.aks_node_count
-  vm_size      = local.aks_node_vm_size
-  os_disk_type = local.aks_node_os_disk_type
+  node_count   = var.aks_node_count
+  vm_size      = var.aks_node_vm_size
+  os_disk_type = var.aks_node_os_disk_type
   acr_id       = module.acr.acr_id
-  tags         = local.tags
+  tags         = var.tags
 }
 
 module "keyvault" {
@@ -65,11 +65,11 @@ module "keyvault" {
   rg_name     = azurerm_resource_group.rg.name
   rg_location = azurerm_resource_group.rg.location
   dns_prefix  = local.dns_prefix
-  kv_sku      = local.kv_sku
+  kv_sku      = var.kv_sku
   tenant_id   = data.azurerm_client_config.current.tenant_id
   object_id   = data.azurerm_client_config.current.object_id
 
-  tags = local.tags
+  tags = var.tags
 }
 
 resource "kubectl_manifest" "secret_provider" {
