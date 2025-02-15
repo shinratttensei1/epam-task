@@ -1,51 +1,39 @@
 locals {
-  prefix = "cmtr-cc456562-mod8"
+  # Prefix for resource names
+  prefix = var.prefix
 
-  # Resource Group
+  # Resource Group Name
   rg_name     = join("-", [local.prefix, "rg"])
-  rg_location = "eastus2"
+  rg_location = var.location
 
-  # ARCS
-  arcs_name     = join("-", [local.prefix, "redis"])
-  arcs_capacity = 2
-  arcs_family   = "C"
+  # Azure Redis Cache
+  redis_name  = join("-", [local.prefix, "redis"])
 
   # Azure Key Vault  
   keyvault_name     = join("-", [local.prefix, "kv"])
-  kv_sku            = "standard"
-  redis_primary_key = "redis-primary-key"
-  redis_hostname    = "redis-hostname"
 
   # Azure Container Registry
-  acr_name   = "cmtrcc456562mod8cr"
-  acr_sku    = "Basic"
+  acr_name   = join("", [replace(local.prefix, "-", ""), "cr"])
   image_name = join("-", [local.prefix, "app"])
 
   # Azure Container Instance
   aci_name = join("-", [local.prefix, "aci"])
-  aci_sku  = "Standard"
 
   # Azure Kubernetes Service
-  aks_name                   = join("-", [local.prefix, "aks"])
-  aks_default_node_pool_name = "system"
-  aks_node_count             = 1
-  aks_node_vm_size           = "Standard_D2ads_v5"
-  aks_node_os_disk_type      = "Ephemeral"
+  aks_name = join("-", [local.prefix, "aks"])
 
-  # Common tags
-  tags = {
-    Creator = "bibarys_mukhambetiyar@epam.com"
-  }
-
+  # DNS Prefix
+  dns_prefix = replace(local.prefix, "-", "")
 
   # Additional variables
-  port         = 80
-  cpu_cores    = 2
-  memory_in_gb = 4
-  dns_prefix   = "cmtrcc456562mod8"
+  port         = var.port
+  cpu_cores    = var.cpu_cores
+  memory_in_gb = var.memory_in_gb
 
-  git_repository_url    = "https://github.com/shinratttensei1/epam-task.git"
-  git_repository_branch = "main"
+  # Common Tags
+  tags = var.tags
 
-  redis_name = join("-", [local.prefix, "redis"])
+  # Git Variables
+  git_repository_url    = var.git_repository_url
+  git_repository_branch = var.git_repository_branch
 }
