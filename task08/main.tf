@@ -108,6 +108,8 @@ resource "kubectl_manifest" "app_deployment" {
       status = "True"
     }
   }
+
+  depends_on = [module.aks]
 }
 
 resource "kubectl_manifest" "app_service" {

@@ -27,7 +27,7 @@ aci_sku = "Standard"
 # Azure Kubernetes Service
 aks_node_count        = 1
 aks_node_vm_size      = "Standard_D2ads_v5"
-aks_node_os_disk_type = "Ephemeral"
+aks_node_os_disk_type = "Managed"
 
 # Additional Variables
 port         = 80
