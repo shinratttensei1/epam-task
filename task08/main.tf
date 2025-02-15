@@ -11,9 +11,9 @@ module "redis" {
   rg_name           = azurerm_resource_group.rg.name
   rg_location       = azurerm_resource_group.rg.location
   kv_id             = module.keyvault.kv_id
-  redis_hostname    = local.redis_hostname
-  redis_primary_key = local.redis_primary_key
-  tags              = local.tags
+  redis_hostname    = var.redis_hostname
+  redis_primary_key = var.redis_primary_key
+  tags              = var.tags
 }
 
 module "aci" {
@@ -21,8 +21,8 @@ module "aci" {
   aci_name          = local.aci_name
   rg_name           = azurerm_resource_group.rg.name
   rg_location       = azurerm_resource_group.rg.location
-  aci_sku           = local.aci_sku
-  tags              = local.tags
+  aci_sku           = var.aci_sku
+  tags              = var.tags
   dns_name_label    = local.dns_prefix
   image_name        = local.image_name
   cpu_cores         = local.cpu_cores
@@ -37,10 +37,10 @@ module "acr" {
   acr_name              = local.acr_name
   rg_name               = azurerm_resource_group.rg.name
   rg_location           = azurerm_resource_group.rg.location
-  acr_sku               = local.acr_sku
+  acr_sku               = var.acr_sku
   git_repository_url    = local.git_repository_url
   git_repository_branch = local.git_repository_branch
-  git_pat               = local.git_pat
+  git_pat               = var.git_pat
   image_name            = local.image_name
 
   tags = local.tags

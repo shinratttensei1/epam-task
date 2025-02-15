@@ -95,3 +95,9 @@ variable "git_repository_branch" {
   description = "Branch of the Git repository"
   type        = string
 }
+
+
+variable "git_pat" {
+  description = "git PAT"
+  type        = string
+}
