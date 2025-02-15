@@ -7,10 +7,10 @@ locals {
   rg_location = var.location
 
   # Azure Redis Cache
-  redis_name  = join("-", [local.prefix, "redis"])
+  redis_name = join("-", [local.prefix, "redis"])
 
   # Azure Key Vault  
-  keyvault_name     = join("-", [local.prefix, "kv"])
+  keyvault_name = join("-", [local.prefix, "kv"])
 
   # Azure Container Registry
   acr_name   = join("", [replace(local.prefix, "-", ""), "cr"])
