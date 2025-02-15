@@ -3,6 +3,6 @@ output "redis_hostname" {
 }
 
 output "redis_primary_key" {
-  value = azurerm_key_vault_secret.redis_primary_key.value
+  value     = azurerm_key_vault_secret.redis_primary_key.value
   sensitive = true
 }

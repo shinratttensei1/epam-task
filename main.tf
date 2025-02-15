@@ -72,6 +72,19 @@ module "keyvault" {
   tags = local.tags
 }
 
+resource "kubectl_manifest" "secret_provider" {
+  yaml_body = templatefile("${path.module}/k8s-manifests/secret-provider.yaml.tftpl", {
+    aks_kv_access_identity_id  = module.aks.aks_identity_id
+    kv_name                    = module.keyvault.kv_name
+    redis_url_secret_name      = module.redis.redis_hostname
+    redis_password_secret_name = module.redis.redis_primary_key
+    tenant_id                  = data.azurerm_client_config.current.tenant_id
+  })
+
+  depends_on = [module.aks, module.keyvault]
+}
+
+
 resource "kubectl_manifest" "app_deployment" {
   yaml_body = templatefile("${path.module}/k8s-manifests/deployment.yaml.tftpl", {
     acr_login_server = module.acr.acr_login_server
@@ -114,4 +127,6 @@ data "kubernetes_service" "app_service" {
     name      = "redis-flask-app-service"
     namespace = "default"
   }
+
+  depends_on = [module.aks]
 }

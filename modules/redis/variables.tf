@@ -19,13 +19,13 @@ variable "kv_id" {
 }
 
 variable "redis_hostname" {
-    description = "Redis Hostname"
-    type = string
+  description = "Redis Hostname"
+  type        = string
 }
 
 variable "redis_primary_key" {
-    description = "Redis Primary Key"
-    type = string
+  description = "Redis Primary Key"
+  type        = string
 }
 
 variable "tags" {
