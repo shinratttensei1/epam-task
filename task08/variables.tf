@@ -13,11 +13,6 @@ variable "tags" {
   type        = map(string)
 }
 
-# Azure Resource Group
-variable "rg_name" {
-  description = "Azure Resource Group Name"
-  type        = string
-}
 
 # Azure Redis Cache
 variable "redis_capacity" {
