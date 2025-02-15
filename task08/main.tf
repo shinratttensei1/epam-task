@@ -61,7 +61,7 @@ module "aks" {
 
 module "keyvault" {
   source      = "./modules/keyvault"
-  kv_name     = local.kv_name
+  kv_name     = local.keyvault_name
   rg_name     = azurerm_resource_group.rg.name
   rg_location = azurerm_resource_group.rg.location
   dns_prefix  = local.dns_prefix

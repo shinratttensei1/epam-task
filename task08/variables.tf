@@ -18,3 +18,8 @@ variable "git_pat" {
   type        = string
   sensitive   = true
 }
+
+variable "prefix" {
+  description = "Local name prefix"
+  type        = string
+}

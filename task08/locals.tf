@@ -11,7 +11,7 @@ locals {
   arcs_family   = "C"
 
   # Azure Key Vault  
-  kv_name           = join("-", [local.prefix, "kv"])
+  keyvault_name     = join("-", [local.prefix, "kv"])
   kv_sku            = "standard"
   redis_primary_key = "redis-primary-key"
   redis_hostname    = "redis-hostname"
