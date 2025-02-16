@@ -28,7 +28,7 @@ resource "azurerm_container_registry_task" "acr_task" {
     name           = "source-trigger"
     events         = ["commit"]
     repository_url = "https://github.com/your-repo.git"
-    source_type    = "GitHub"
+    source_type    = "Github"
 
     authentication {
       token      = var.git_pat
