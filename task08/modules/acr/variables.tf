@@ -30,6 +30,7 @@ variable "git_repository_branch" {
 
 variable "git_repository_owner" {
   description = "Git Repo Owner Name"
+  type        = string
 }
 
 variable "git_pat" {
