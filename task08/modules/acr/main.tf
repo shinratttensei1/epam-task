@@ -9,7 +9,7 @@ resource "azurerm_container_registry" "acr" {
 }
 
 resource "azurerm_container_registry_task" "acr_task" {
-  name                 = "example-task"
+  name                  = "example-task"
   container_registry_id = azurerm_container_registry.acr.id
 
   platform {
@@ -31,7 +31,7 @@ resource "azurerm_container_registry_task" "acr_task" {
     source_type    = "GitHub"
 
     authentication {
-      token     = var.git_pat
+      token      = var.git_pat
       token_type = "PAT"
     }
   }
