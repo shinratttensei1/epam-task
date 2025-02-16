@@ -11,7 +11,7 @@ resource "azurerm_container_registry" "acr" {
 resource "azurerm_container_registry_task" "acr_task" {
   name                  = "${var.acr_name}-docker-image-build-task"
   container_registry_id = azurerm_container_registry.acr.id
-  
+
   platform {
     os = "Linux"
   }
