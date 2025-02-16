@@ -5,13 +5,15 @@ resource "azurerm_container_group" "aci" {
   ip_address_type     = "Public"
   dns_name_label      = var.dns_name_label
   os_type             = "Linux"
-  sku                 = var.aci_sku
+  sku                 = "Standard"
 
-  tags = var.tags
+  identity {
+    type = "SystemAssigned"
+  }
 
   container {
     name   = var.aci_name
-    image  = var.image_name
+    image  = "${var.acr_login_server}/${var.image_name}:latest"
     cpu    = var.cpu_cores
     memory = var.memory_in_gb
 
@@ -31,4 +33,6 @@ resource "azurerm_container_group" "aci" {
       REDIS_PWD = var.redis_primary_key
     }
   }
+
+  tags = var.tags
 }

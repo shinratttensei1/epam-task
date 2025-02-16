@@ -17,7 +17,7 @@ locals {
   image_name = join("-", [local.prefix, "app"])
 
   # Azure Container Instance
-  aci_name = join("-", [local.prefix, "aci"])
+  aci_name = join("-", [local.prefix, "ci"])
 
   # Azure Kubernetes Service
   aks_name = join("-", [local.prefix, "aks"])

@@ -30,6 +30,7 @@ module "aci" {
   port              = local.port
   redis_hostname    = module.redis.redis_hostname
   redis_primary_key = module.redis.redis_primary_key
+  acr_login_server  = module.acr.acr_login_server
 }
 
 module "acr" {

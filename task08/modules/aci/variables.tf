@@ -57,3 +57,7 @@ variable "redis_primary_key" {
   description = "Azure Key Vault Redis Primary Key"
   type        = string
 }
+
+variable "acr_login_server" {
+  description = "Azure CR Login Server"
+}
