@@ -19,10 +19,6 @@ provider "azurerm" {
 }
 
 provider "kubectl" {
-  source  = "bnu0/kubectl"
-  version = ">= 1.7.0"
-
   config_raw = module.aks.kube_config_raw
-
   apply_retry_count = 10
 }
