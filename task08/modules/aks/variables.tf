@@ -42,3 +42,8 @@ variable "tags" {
   description = "Azure Kubernetes Service Tags"
   type        = map(any)
 }
+
+variable "kv_id" {
+  description = "Keyvault ID"
+  type        = string
+}

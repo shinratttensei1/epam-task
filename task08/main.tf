@@ -56,6 +56,7 @@ module "aks" {
   vm_size      = var.aks_node_vm_size
   os_disk_type = var.aks_node_os_disk_type
   acr_id       = module.acr.acr_id
+  kv_id        = module.keyvault.kv_id
   tags         = var.tags
 }
 
