@@ -19,9 +19,10 @@ provider "azurerm" {
 }
 
 provider "kubectl" {
-  host                   = module.aks.kube_config.host
-  cluster_ca_certificate = base64decode(module.aks.kube_config.cluster_ca_certificate)
-  token                  = module.aks.kube_config.token
-  load_config_file       = false
-  apply_retry_count      = 10
+  source  = "bnu0/kubectl"
+  version = ">= 1.7.0"
+
+  config_raw = module.aks.kube_config_raw
+
+  apply_retry_count = 10
 }
