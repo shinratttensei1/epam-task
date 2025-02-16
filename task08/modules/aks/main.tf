@@ -7,6 +7,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   identity {
     type = "SystemAssigned"
   }
+  
 
   default_node_pool {
     name         = "default"
@@ -15,10 +16,13 @@ resource "azurerm_kubernetes_cluster" "aks" {
     os_disk_type = var.os_disk_type
   }
 
+  key_vault_secrets_provider {
+    secret_rotation_enabled   = true  
+  }
 
   tags = var.tags
-
 }
+
 
 resource "azurerm_role_assignment" "aks_acr_pull" {
   scope                = var.acr_id
