@@ -18,14 +18,18 @@ variable "acr_sku" {
   type        = string
 }
 
-variable "git_repository_url" {
-  description = "GitHub Repository URL"
+variable "git_repository_name" {
+  description = "GitHub Repository Name"
   type        = string
 }
 
 variable "git_repository_branch" {
   description = "GitHub Repository Branch"
   type        = string
+}
+
+variable "git_repository_owner" {
+  description = "Git Repo Owner Name"
 }
 
 variable "git_pat" {

@@ -20,7 +20,7 @@ resource "azurerm_container_registry_task" "acr_task" {
 
   docker_step {
     context_access_token = var.git_pat
-    context_path         = "https://github.com/${var.github_repo_owner}/${var.git_repository_name}#${var.git_repository_branch}:application"
+    context_path         = "https://github.com/${var.github_repository_owner}/${var.git_repository_name}#${var.git_repository_branch}:application"
     dockerfile_path      = "application/Dockerfile"
     image_names          = ["${var.image_name}:latest"]
   }

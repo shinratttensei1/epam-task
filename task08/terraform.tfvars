@@ -35,5 +35,6 @@ cpu_cores    = 2
 memory_in_gb = 4
 
 # Git Variables
-git_repository_url    = "https://github.com/shinratttensei1/epam-task.git"
+git_repository_name   = "epam-task"
+git_repository_owner  = "shinratttensei1"
 git_repository_branch = "main"
