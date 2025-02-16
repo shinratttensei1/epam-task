@@ -9,30 +9,31 @@ resource "azurerm_container_registry" "acr" {
 }
 
 resource "azurerm_container_registry_task" "acr_task" {
-  name                  = "example-task"
+  name                  = "${var.acr_name}-docker-image-build-task"
   container_registry_id = azurerm_container_registry.acr.id
 
   platform {
     os = "Linux"
   }
 
-  docker_step {
-    dockerfile_path      = "Dockerfile"
-    context_path         = "https://github.com/your-repo.git"
-    context_access_token = var.git_pat
-    image_names          = ["${azurerm_container_registry.acr.login_server}/your-image:latest"]
-    push_enabled         = true
-  }
-
   source_trigger {
-    name           = "source-trigger"
-    events         = ["commit"]
-    repository_url = "https://github.com/your-repo.git"
+    name           = "docker-image-build-trigger"
+    enabled        = true
     source_type    = "Github"
+    repository_url = var.git_repository_url
+    branch         = var.git_repository_branch
+    events         = ["push"]
 
-    authentication {
-      token      = var.git_pat
-      token_type = "PAT"
-    }
   }
+
+  docker_step {
+    context_access_token = var.git_pat
+    context_path         = "application"
+    dockerfile_path      = "application/Dockerfile"
+    image_names          = ["${var.image_name}:latest"]
+  }
+}
+
+resource "azurerm_container_registry_task_schedule_run_now" "acr_task_run_now" {
+  container_registry_task_id = azurerm_container_registry_task.acr_task.id
 }
