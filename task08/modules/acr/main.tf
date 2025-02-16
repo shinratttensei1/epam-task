@@ -26,6 +26,11 @@ resource "azurerm_container_registry_task" "acr_task" {
 
   }
 
+  authentication {
+    token      = var.git_pat
+    token_type = "PAT"
+  }
+
   docker_step {
     context_access_token = var.git_pat
     context_path         = "application"

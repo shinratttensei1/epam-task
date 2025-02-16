@@ -31,6 +31,7 @@ variable "git_repository_branch" {
 variable "git_pat" {
   description = "GitHub Personal Access Token"
   type        = string
+  sensitive   = true
 }
 
 variable "image_name" {
