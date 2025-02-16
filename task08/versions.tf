@@ -19,6 +19,6 @@ provider "azurerm" {
 }
 
 provider "kubectl" {
-  config_raw = module.aks.kube_config_raw
+  config_raw        = module.aks.kube_config_raw
   apply_retry_count = 10
 }
