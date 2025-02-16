@@ -22,7 +22,7 @@ resource "azurerm_container_registry_task" "acr_task" {
     source_type    = "Github"
     repository_url = var.git_repository_url
     branch         = var.git_repository_branch
-    events         = ["push"]
+    events         = ["commit"]
 
   }
 
