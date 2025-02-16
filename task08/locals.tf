@@ -32,8 +32,4 @@ locals {
 
   # Common Tags
   tags = var.tags
-
-  # Git Variables
-  git_repository_url    = var.git_repository_url
-  git_repository_branch = var.git_repository_branch
 }

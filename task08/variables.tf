@@ -86,14 +86,18 @@ variable "memory_in_gb" {
 }
 
 # Git Variables
-variable "git_repository_url" {
-  description = "URL of the Git repository"
+variable "git_repository_name" {
+  description = "GitHub Repository Name"
   type        = string
 }
 
 variable "git_repository_branch" {
-  description = "Branch of the Git repository"
+  description = "GitHub Repository Branch"
   type        = string
+}
+
+variable "git_repository_owner" {
+  description = "Git Repo Owner Name"
 }
 
 

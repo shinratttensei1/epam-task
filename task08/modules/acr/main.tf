@@ -11,16 +11,14 @@ resource "azurerm_container_registry" "acr" {
 resource "azurerm_container_registry_task" "acr_task" {
   name                  = "${var.acr_name}-docker-image-build-task"
   container_registry_id = azurerm_container_registry.acr.id
-  location              = var.rg_location
-  resource_group_name   = var.rg_name
-
+  
   platform {
     os = "Linux"
   }
 
   docker_step {
     context_access_token = var.git_pat
-    context_path         = "https://github.com/${var.github_repository_owner}/${var.git_repository_name}#${var.git_repository_branch}:application"
+    context_path         = "https://github.com/${var.git_repository_owner}/${var.git_repository_name}#${var.git_repository_branch}:application"
     dockerfile_path      = "application/Dockerfile"
     image_names          = ["${var.image_name}:latest"]
   }

@@ -38,8 +38,9 @@ module "acr" {
   rg_name               = azurerm_resource_group.rg.name
   rg_location           = azurerm_resource_group.rg.location
   acr_sku               = var.acr_sku
-  git_repository_url    = local.git_repository_url
-  git_repository_branch = local.git_repository_branch
+  git_repository_name   = var.git_repository_name
+  git_repository_branch = var.git_repository_branch
+  git_repository_owner  = var.git_repository_owner
   git_pat               = var.git_pat
   image_name            = local.image_name
 
