@@ -16,22 +16,7 @@ module "redis" {
   tags              = var.tags
 }
 
-module "aci" {
-  source            = "./modules/aci"
-  aci_name          = local.aci_name
-  rg_name           = azurerm_resource_group.rg.name
-  rg_location       = azurerm_resource_group.rg.location
-  aci_sku           = var.aci_sku
-  tags              = var.tags
-  dns_name_label    = local.dns_prefix
-  image_name        = local.image_name
-  cpu_cores         = local.cpu_cores
-  memory_in_gb      = local.memory_in_gb
-  port              = local.port
-  redis_hostname    = module.redis.redis_hostname
-  redis_primary_key = module.redis.redis_primary_key
-  acr_login_server  = module.acr.acr_login_server
-}
+
 
 module "acr" {
   source                = "./modules/acr"
@@ -44,8 +29,31 @@ module "acr" {
   git_repository_owner  = var.git_repository_owner
   git_pat               = var.git_pat
   image_name            = local.image_name
+  tags                  = var.tags
+  }
 
-  tags = var.tags
+module "aci" {
+  source                      = "./modules/aci"
+  aci_name                    = local.aci_name
+  rg_name                     = azurerm_resource_group.rg.name
+  rg_location                 = azurerm_resource_group.rg.location
+  aci_sku                     = var.aci_sku
+  tags                        = var.tags
+  dns_name_label              = local.dns_prefix
+  image_name                  = local.image_name
+  cpu_cores                   = local.cpu_cores
+  memory_in_gb                = local.memory_in_gb
+  port                        = local.port
+  redis_hostname              = module.redis.redis_hostname
+  redis_primary_key           = module.redis.redis_primary_key
+  container_registry_username = module.acr.acr_admin_username
+  container_registry_server   = module.acr.acr_login_server
+  container_registry_pass     = module.acr.acr_admin_password
+
+  depends_on = [
+    azurerm_resource_group.rg, module.acr
+  ]
+
 }
 
 module "aks" {

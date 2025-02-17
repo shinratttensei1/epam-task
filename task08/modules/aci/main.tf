@@ -7,13 +7,15 @@ resource "azurerm_container_group" "aci" {
   os_type             = "Linux"
   sku                 = "Standard"
 
-  identity {
-    type = "SystemAssigned"
+  image_registry_credential {
+    username = var.container_registry_username
+    password = var.container_registry_pass
+    server   = var.container_registry_server
   }
 
   container {
     name   = var.aci_name
-    image  = "${var.acr_login_server}/${var.image_name}:latest"
+    image  = "${var.container_registry_server}/${var.image_name}:latest"
     cpu    = var.cpu_cores
     memory = var.memory_in_gb
 

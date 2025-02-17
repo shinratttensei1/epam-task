@@ -58,6 +58,17 @@ variable "redis_primary_key" {
   type        = string
 }
 
-variable "acr_login_server" {
-  description = "Azure CR Login Server"
+variable "container_registry_username" {
+  description = "Container Registry Username"
+  type        = string
+}
+
+variable "container_registry_server" {
+  description = "Container Registry Server"
+  type        = string
+}
+
+variable "container_registry_pass" {
+  description = "Container Registry Password"
+  type        = string
 }
