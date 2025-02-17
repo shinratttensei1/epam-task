@@ -22,6 +22,7 @@ resource "azurerm_key_vault_access_policy" "user_kv_policy" {
     "Recover",
     "Backup",
     "Restore",
+    "Purge"
   ]
 }
 
