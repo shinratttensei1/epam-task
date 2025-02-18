@@ -16,20 +16,20 @@ locals {
   acr_name   = join("", [replace(local.prefix, "-", ""), "cr"])
   image_name = join("-", [local.prefix, "app"])
 
-    # Azure Container Instance
-    aci_name = join("-", [local.prefix, "ci"])
+  # Azure Container Instance
+  aci_name = join("-", [local.prefix, "ci"])
 
-    # Azure Kubernetes Service
-    aks_name = join("-", [local.prefix, "aks"])
+  # Azure Kubernetes Service
+  aks_name = join("-", [local.prefix, "aks"])
 
-    # DNS Prefix
-    dns_prefix = join("-", [local.prefix, "dns"])
+  # DNS Prefix
+  dns_prefix = join("-", [local.prefix, "dns"])
 
-    # Additional variables
-    port         = var.port
-    cpu_cores    = var.cpu_cores
-    memory_in_gb = var.memory_in_gb
+  # Additional variables
+  port         = var.port
+  cpu_cores    = var.cpu_cores
+  memory_in_gb = var.memory_in_gb
 
-    # Common Tags
-    tags = var.tags
+  # Common Tags
+  tags = var.tags
 }
