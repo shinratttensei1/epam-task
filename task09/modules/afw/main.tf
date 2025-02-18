@@ -8,7 +8,7 @@ resource "azurerm_subnet" "afw_subnet" {
   name                 = "AzureFirewallSubnet"
   resource_group_name  = var.rg_name
   virtual_network_name = var.vnet_name
-  address_prefixes     = [var.afw_subnet_address_space]
+  address_prefixes     = [var.subnet_space]
 }
 
 resource "azurerm_public_ip" "afw_pip" {
@@ -56,7 +56,7 @@ resource "azurerm_subnet_route_table_association" "afw_rt_assoc" {
 }
 
 resource "azurerm_firewall_application_rule_collection" "afw_app_rule" {
-  name                = local.afw_app_rule_name
+  name                = local.app_rules_name
   azure_firewall_name = azurerm_firewall.afw.name
   resource_group_name = var.rg_name
   priority            = 100
