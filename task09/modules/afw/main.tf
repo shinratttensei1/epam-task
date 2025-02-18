@@ -77,7 +77,7 @@ resource "azurerm_firewall_nat_rule_collection" "afw_nat_rule" {
     source_addresses      = ["*"]
     destination_addresses = [azurerm_public_ip.afw_pip.ip_address]
     destination_ports     = ["80"]
-    translated_address    = var.LB_IP_ADDRESS
+    translated_address    = var.aks_loadbalancer_ip
     translated_port       = "80"
     protocols             = ["TCP"]
   }
