@@ -8,7 +8,7 @@ resource "azurerm_subnet" "snet" {
   name                 = local.aks_snet_name
   resource_group_name  = var.rg_name
   virtual_network_name = var.vnet_name
-  address_prefixes = ["10.0.1.0/24"]
+  address_prefixes     = ["10.0.1.0/24"]
 }
 
 resource "azurerm_public_ip" "afw_pip" {
@@ -29,7 +29,7 @@ resource "azurerm_firewall" "afw" {
   resource_group_name = var.rg_name
   sku_name            = "AZFW_VNet"
   sku_tier            = "Standard"
-  dns_proxy_enabled = true
+  dns_proxy_enabled   = true
 
   ip_configuration {
     name                 = "configuration"
@@ -51,9 +51,9 @@ resource "azurerm_route_table" "afw_rt" {
   }
 
   route {
-    name = "internet-route"
+    name           = "internet-route"
     address_prefix = "${azurerm_public_ip.afw_pip.ip_address}/32"
-    next_hop_type = "Internet"
+    next_hop_type  = "Internet"
   }
 }
 

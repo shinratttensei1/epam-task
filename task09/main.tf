@@ -3,10 +3,10 @@ data "azurerm_resource_group" "existing_rg" {
 }
 
 data "azurerm_virtual_network" "existing_vnet" {
-  name = local.vnet_name
+  name                = local.vnet_name
   resource_group_name = data.azurerm_resource_group.existing_rg.name
 }
- 
+
 module "afw" {
   source              = "./modules/afw"
   unique_id           = var.unique_id
