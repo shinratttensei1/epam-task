@@ -1,7 +1,7 @@
 resource "azurerm_user_assigned_identity" "aks_identity" {
-  name = "${var.aks_name}-identity"
+  name                = "${var.aks_name}-identity"
   resource_group_name = var.rg_name
-  location = var.rg_location
+  location            = var.rg_location
 }
 
 resource "azurerm_kubernetes_cluster" "aks" {
@@ -11,7 +11,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = var.dns_prefix
 
   identity {
-    type = "UserAssigned"
+    type         = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.aks_identity.id]
   }
 
@@ -39,7 +39,7 @@ resource "azurerm_role_assignment" "aks_acr_pull" {
 
 resource "azurerm_key_vault_access_policy" "aks_kv_policy" {
   key_vault_id = var.kv_id
-  tenant_id =   var.tenant
+  tenant_id    = var.tenant
   object_id    = azurerm_user_assigned_identity.aks_identity.principal_id
 
   secret_permissions = [

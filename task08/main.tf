@@ -29,7 +29,7 @@ module "redis" {
   redis_primary_key = var.redis_primary_key
   tags              = var.tags
 
-  depends_on = [ module.keyvault ]
+  depends_on = [module.keyvault]
 }
 
 
@@ -83,7 +83,7 @@ module "aks" {
   os_disk_type = var.aks_node_os_disk_type
   acr_id       = module.acr.acr_id
   kv_id        = module.keyvault.kv_id
-  tenant = data.azurerm_client_config.current.tenant_id
+  tenant       = data.azurerm_client_config.current.tenant_id
   tags         = var.tags
 }
 
