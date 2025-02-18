@@ -39,7 +39,7 @@ resource "azurerm_role_assignment" "aks_acr_pull" {
 
 resource "azurerm_key_vault_access_policy" "aks_kv_policy" {
   key_vault_id = var.kv_id
-  tenant_id    = var.tenant
+  tenant_id    = azurerm_user_assigned_identity.aks_identity.tenant_id
   object_id    = azurerm_user_assigned_identity.aks_identity.principal_id
 
   secret_permissions = [
