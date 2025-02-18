@@ -15,23 +15,26 @@ resource "azurerm_redis_cache" "redis" {
   tags = var.tags
 }
 
-data "azurerm_redis_cache" "redis_info" {
-  name                = azurerm_redis_cache.redis.name
-  resource_group_name = azurerm_redis_cache.redis.resource_group_name
-}
-
 resource "azurerm_key_vault_secret" "redis_hostname" {
   name         = var.redis_hostname
-  value        = data.azurerm_redis_cache.redis_info.hostname
+  value        = azurerm_redis_cache.redis.hostname
   key_vault_id = var.kv_id
 
   tags = var.tags
+
+  depends_on = [
+    azurerm_redis_cache.redis
+  ]
 }
 
 resource "azurerm_key_vault_secret" "redis_primary_key" {
   name         = var.redis_primary_key
-  value        = data.azurerm_redis_cache.redis_info.primary_access_key
+  value        = azurerm_redis_cache.redis.primary_access_key
   key_vault_id = var.kv_id
 
   tags = var.tags
+
+  depends_on = [
+    azurerm_redis_cache.redis
+  ]
 }
