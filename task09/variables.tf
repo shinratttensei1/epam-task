@@ -18,7 +18,7 @@ variable "subnet_space" {
   type        = string
 }
 
-variable "LB_IP_ADDRESS" {
+variable "aks_loadbalancer_ip" {
   description = "AKS load-balancer public IP"
   type        = string
 }
