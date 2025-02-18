@@ -1,9 +1,9 @@
-unique_id = "cmtr-cc456562-mod9"
-subnet_name = "aks-snet"
-vnet_space = "10.0.0.0/16"
-subnet_space = "10.0.0.0/24"
+unique_id     = "cmtr-cc456562-mod9"
+subnet_name   = "aks-snet"
+vnet_space    = "10.0.0.0/16"
+subnet_space  = "10.0.0.0/24"
 LB_IP_ADDRESS = "48.214.13.100"
 
 tags = {
-    Creator = "bibarys_mukhambetiyar@epam.com"
+  Creator = "bibarys_mukhambetiyar@epam.com"
 }

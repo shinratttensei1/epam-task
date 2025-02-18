@@ -35,9 +35,9 @@ resource "azurerm_route_table" "afw_rt" {
   resource_group_name = var.rg_name
 
   route {
-    name           = "to-firewall"
-    address_prefix = "0.0.0.0/0"
-    next_hop_type  = "VirtualAppliance"
+    name                   = "to-firewall"
+    address_prefix         = "0.0.0.0/0"
+    next_hop_type          = "VirtualAppliance"
     next_hop_in_ip_address = azurerm_firewall.afw.ip_configuration[0].private_ip_address
   }
 }
@@ -52,12 +52,12 @@ resource "azurerm_firewall_application_rule_collection" "afw_app_rule" {
   azure_firewall_name = azurerm_firewall.afw.name
   resource_group_name = var.rg_name
   priority            = 100
-  action             = "Allow"
+  action              = "Allow"
 
   rule {
-    name = "AllowNGINX"
+    name             = "AllowNGINX"
     source_addresses = ["*"]
-    target_fqdns    = ["*"]
+    target_fqdns     = ["*"]
     protocol {
       port = 80
       type = "Http"
@@ -73,13 +73,13 @@ resource "azurerm_firewall_nat_rule_collection" "afw_nat_rule" {
   action              = "Dnat"
 
   rule {
-    name                = "NginxInbound"
-    source_addresses    = ["*"]
+    name                  = "NginxInbound"
+    source_addresses      = ["*"]
     destination_addresses = [azurerm_public_ip.afw_pip.ip_address]
-    destination_ports   = ["80"]
-    translated_address  = var.LB_IP_ADDRESS
-    translated_port     = "80"
-    protocols          = ["TCP"]
+    destination_ports     = ["80"]
+    translated_address    = var.LB_IP_ADDRESS
+    translated_port       = "80"
+    protocols             = ["TCP"]
   }
 }
 
