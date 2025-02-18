@@ -86,3 +86,26 @@ resource "azurerm_firewall_network_rule_collection" "afw_network_rule" {
     }
   }
 }
+
+resource "azurerm_firewall_nat_rule_collection" "afw_nat_rule" {
+  name                = local.afw_nat_rule_name
+  azure_firewall_name = azurerm_firewall.afw.name
+  resource_group_name = local.rg_name
+  priority            = 100
+  action              = "Dnat"
+
+  dynamic "rule" {
+    for_each = { 
+      "nginx" = { port = 80, translated_address = var.aks_loadbalancer_ip } 
+    }
+    content {
+      name                = rule.key
+      source_addresses    = ["*"]
+      destination_address = azurerm_public_ip.afw_pip.ip_address
+      destination_ports   = [rule.value.port]
+      translated_address  = rule.value.translated_address
+      translated_port     = rule.value.port
+      protocols           = ["TCP"]
+    }
+  }
+}
