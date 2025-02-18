@@ -83,6 +83,7 @@ module "aks" {
   os_disk_type = var.aks_node_os_disk_type
   acr_id       = module.acr.acr_id
   kv_id        = module.keyvault.kv_id
+  tenant = data.azurerm_client_config.current.tenant_id
   tags         = var.tags
 }
 
@@ -98,6 +99,7 @@ resource "kubectl_manifest" "secret_provider" {
   depends_on = [module.aks, module.keyvault]
 }
 
+/*
 
 resource "kubectl_manifest" "app_deployment" {
   yaml_body = templatefile("${path.module}/k8s-manifests/deployment.yaml.tftpl", {
@@ -117,16 +119,13 @@ resource "kubectl_manifest" "app_deployment" {
       status = "True"
     }
 
-    condition {
-      type   = "Ready"
-      status = "True"
-    }
-
   }
 
 
   depends_on = [module.aks]
 }
+
+*/
 
 resource "kubectl_manifest" "app_service" {
   yaml_body = file("${path.module}/k8s-manifests/service.yaml")

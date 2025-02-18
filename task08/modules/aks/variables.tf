@@ -47,3 +47,8 @@ variable "kv_id" {
   description = "Keyvault ID"
   type        = string
 }
+
+variable "tenant" {
+  description = "Tenant"
+  type        = string
+}

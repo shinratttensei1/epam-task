@@ -1,6 +1,7 @@
 output "aks_identity_id" {
-  value = azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
+  value = azurerm_user_assigned_identity.aks_identity.id
 }
+
 
 output "kube_config" {
   description = "Kubeconfig required for kubectl provider"
