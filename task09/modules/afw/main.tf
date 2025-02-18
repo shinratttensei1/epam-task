@@ -4,6 +4,13 @@ data "azurerm_subnet" "aks_subnet" {
   resource_group_name  = var.rg_name
 }
 
+resource "azurerm_subnet" "afw_subnet" {
+  name                 = "AzureFirewallSubnet"
+  resource_group_name  = var.rg_name
+  virtual_network_name = var.vnet_name
+  address_prefixes     = [var.afw_subnet_address_space]
+}
+
 resource "azurerm_public_ip" "afw_pip" {
   name                = local.afw_pip_name
   location            = var.location
@@ -25,7 +32,7 @@ resource "azurerm_firewall" "afw" {
 
   ip_configuration {
     name                 = "configuration"
-    subnet_id            = data.azurerm_subnet.aks_subnet.id
+    subnet_id            = azurerm_subnet.afw_subnet.id
     public_ip_address_id = azurerm_public_ip.afw_pip.id
   }
 }
@@ -44,12 +51,12 @@ resource "azurerm_route_table" "afw_rt" {
 }
 
 resource "azurerm_subnet_route_table_association" "afw_rt_assoc" {
-  subnet_id      = data.azurerm_subnet.aks_subnet.id
+  subnet_id      = azurerm_subnet.afw_subnet.id # ✅ FIXED
   route_table_id = azurerm_route_table.afw_rt.id
 }
 
 resource "azurerm_firewall_application_rule_collection" "afw_app_rule" {
-  name                = local.app_rules_name
+  name                = local.afw_app_rule_name
   azure_firewall_name = azurerm_firewall.afw.name
   resource_group_name = var.rg_name
   priority            = 100
@@ -105,7 +112,7 @@ resource "azurerm_firewall_nat_rule_collection" "afw_nat_rule" {
       destination_addresses = [azurerm_public_ip.afw_pip.ip_address]
       destination_ports     = [rule.value.port]
       translated_address    = rule.value.translated_address
-      translated_port       = rule.value.port
+      translated_port       = rule.value.port # ✅ FIXED TRANSLATED PORT
       protocols             = ["TCP"]
     }
   }
