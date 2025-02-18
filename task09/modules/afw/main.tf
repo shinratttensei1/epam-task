@@ -48,6 +48,19 @@ resource "azurerm_route_table" "afw_rt" {
     next_hop_type          = "VirtualAppliance"
     next_hop_in_ip_address = azurerm_firewall.afw.ip_configuration[0].private_ip_address
   }
+}
+
+resource "azurerm_subnet_route_table_association" "aks_snet_rt_assoc" {
+  subnet_id      = data.azurerm_subnet.aks_subnet.id  
+  route_table_id = azurerm_route_table.afw_rt.id
+
+  depends_on = [azurerm_firewall.afw]
+}
+
+resource "azurerm_route_table" "afw_subnet_rt" {
+  name                = join("-", [var.unique_id, "afw-subnet-rt"])
+  location            = var.location
+  resource_group_name = var.rg_name
 
   route {
     name           = "default-internet"
@@ -56,10 +69,12 @@ resource "azurerm_route_table" "afw_rt" {
   }
 }
 
-resource "azurerm_subnet_route_table_association" "afw_rt_assoc" {
+resource "azurerm_subnet_route_table_association" "afw_subnet_rt_assoc" {
   subnet_id      = azurerm_subnet.afw_subnet.id 
-  route_table_id = azurerm_route_table.afw_rt.id
+  route_table_id = azurerm_route_table.afw_subnet_rt.id
 }
+
+
 
 resource "azurerm_firewall_application_rule_collection" "afw_app_rule" {
   name                = local.app_rules_name
