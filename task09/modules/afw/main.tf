@@ -101,7 +101,7 @@ resource "azurerm_firewall_nat_rule_collection" "afw_nat_rule" {
     content {
       name                  = rule.key
       source_addresses      = ["*"]
-      destination_addresses = azurerm_public_ip.afw_pip.ip_address
+      destination_addresses = [azurerm_public_ip.afw_pip.ip_address]
       destination_ports     = [rule.value.port]
       translated_address    = rule.value.translated_address
       translated_port       = rule.value.port
