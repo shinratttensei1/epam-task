@@ -1,19 +1,16 @@
-# Retrieve existing AKS subnet
-data "azurerm_subnet" "aks_subnet" {
+data "azurerm_subnet" "aks_snet" {
+  name                 = local.aks_snet_name
+  resource_group_name  = var.rg_name
+  virtual_network_name = var.vnet_name
+}
+
+resource "azurerm_subnet" "snet" {
   name                 = var.subnet_name
-  virtual_network_name = var.vnet_name
-  resource_group_name  = var.rg_name
-}
-
-# Create Azure Firewall Subnet inside the existing VNET
-resource "azurerm_subnet" "afw_subnet" {
-  name                 = "AzureFirewallSubnet"
   resource_group_name  = var.rg_name
   virtual_network_name = var.vnet_name
-  address_prefixes     = [var.vnet_space]
+  address_prefixes = ["10.0.1.0/24"]
 }
 
-# Create Public IP for Azure Firewall
 resource "azurerm_public_ip" "afw_pip" {
   name                = local.afw_pip_name
   location            = var.location
@@ -26,22 +23,21 @@ resource "azurerm_public_ip" "afw_pip" {
   }
 }
 
-# Deploy Azure Firewall
 resource "azurerm_firewall" "afw" {
   name                = local.afw_name
   location            = var.location
   resource_group_name = var.rg_name
   sku_name            = "AZFW_VNet"
   sku_tier            = "Standard"
+  dns_proxy_enabled = true
 
   ip_configuration {
     name                 = "configuration"
-    subnet_id            = azurerm_subnet.afw_subnet.id
+    subnet_id            = azurerm_subnet.snet.id
     public_ip_address_id = azurerm_public_ip.afw_pip.id
   }
 }
 
-# Create Route Table for AKS Subnet (routes traffic to Firewall)
 resource "azurerm_route_table" "afw_rt" {
   name                = local.afw_rt_name
   location            = var.location
@@ -53,11 +49,17 @@ resource "azurerm_route_table" "afw_rt" {
     next_hop_type          = "VirtualAppliance"
     next_hop_in_ip_address = azurerm_firewall.afw.ip_configuration[0].private_ip_address
   }
+
+  route {
+    name = "internet-route"
+    address_prefix = "${azurerm_public_ip.afw_pip.ip_address}/32"
+    next_hop_type = "Internet"
+  }
 }
 
 # Associate Route Table with AKS Subnet
 resource "azurerm_subnet_route_table_association" "aks_snet_rt_assoc" {
-  subnet_id      = data.azurerm_subnet.aks_subnet.id
+  subnet_id      = data.azurerm_subnet.aks_snet.id
   route_table_id = azurerm_route_table.afw_rt.id
 }
 
