@@ -125,7 +125,6 @@ resource "kubectl_manifest" "app_deployment" {
   depends_on = [module.aks]
 }
 
-*/
 
 resource "kubectl_manifest" "app_service" {
   yaml_body = file("${path.module}/k8s-manifests/service.yaml")
@@ -147,3 +146,4 @@ data "kubernetes_service" "app_service" {
 
   depends_on = [module.aks]
 }
+*/
