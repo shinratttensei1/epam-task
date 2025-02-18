@@ -1,8 +1,7 @@
-resource "azurerm_subnet" "afw_subnet" {
+data "azurerm_subnet" "aks_subnet" {
   name                 = var.subnet_name
-  resource_group_name  = var.rg_name
   virtual_network_name = var.vnet_name
-  address_prefixes     = [var.subnet_space]
+  resource_group_name  = var.rg_name
 }
 
 resource "azurerm_public_ip" "afw_pip" {
@@ -11,6 +10,7 @@ resource "azurerm_public_ip" "afw_pip" {
   resource_group_name = var.rg_name
   allocation_method   = "Static"
   sku                 = "Standard"
+
   lifecycle {
     create_before_destroy = true
   }
@@ -22,9 +22,10 @@ resource "azurerm_firewall" "afw" {
   resource_group_name = var.rg_name
   sku_name            = "AZFW_VNet"
   sku_tier            = "Standard"
+
   ip_configuration {
     name                 = "configuration"
-    subnet_id            = azurerm_subnet.afw_subnet.id
+    subnet_id            = data.azurerm_subnet.aks_subnet.id
     public_ip_address_id = azurerm_public_ip.afw_pip.id
   }
 }
@@ -43,7 +44,7 @@ resource "azurerm_route_table" "afw_rt" {
 }
 
 resource "azurerm_subnet_route_table_association" "afw_rt_assoc" {
-  subnet_id      = azurerm_subnet.afw_subnet.id
+  subnet_id      = data.azurerm_subnet.aks_subnet.id
   route_table_id = azurerm_route_table.afw_rt.id
 }
 
@@ -66,10 +67,10 @@ resource "azurerm_firewall_application_rule_collection" "afw_app_rule" {
 }
 
 resource "azurerm_firewall_network_rule_collection" "afw_network_rule" {
-  name                = local.app_rules_name
+  name                = local.afw_network_rule_name
   azure_firewall_name = azurerm_firewall.afw.name
   resource_group_name = var.rg_name
-  priority            = 100
+  priority            = 200
   action              = "Allow"
 
   dynamic "rule" {
@@ -91,7 +92,7 @@ resource "azurerm_firewall_nat_rule_collection" "afw_nat_rule" {
   name                = local.afw_nat_rule_name
   azure_firewall_name = azurerm_firewall.afw.name
   resource_group_name = var.rg_name
-  priority            = 100
+  priority            = 300
   action              = "Dnat"
 
   dynamic "rule" {
