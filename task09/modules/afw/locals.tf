@@ -5,4 +5,5 @@ locals {
   afw_pip_name          = join("-", [var.unique_id, "afw-pip"])
   afw_nat_rule_name     = join("-", [var.unique_id, "afw-nat-rules"])
   afw_network_rule_name = join("-", [var.unique_id, "afw-network-rules"])
+
 }

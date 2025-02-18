@@ -1,16 +1,19 @@
+# Retrieve existing AKS subnet
 data "azurerm_subnet" "aks_subnet" {
   name                 = var.subnet_name
   virtual_network_name = var.vnet_name
   resource_group_name  = var.rg_name
 }
 
+# Create Azure Firewall Subnet inside the existing VNET
 resource "azurerm_subnet" "afw_subnet" {
   name                 = "AzureFirewallSubnet"
   resource_group_name  = var.rg_name
   virtual_network_name = var.vnet_name
-  address_prefixes     = ["10.0.1.0/26"]
+  address_prefixes     = [var.vnet_space]
 }
 
+# Create Public IP for Azure Firewall
 resource "azurerm_public_ip" "afw_pip" {
   name                = local.afw_pip_name
   location            = var.location
@@ -23,6 +26,7 @@ resource "azurerm_public_ip" "afw_pip" {
   }
 }
 
+# Deploy Azure Firewall
 resource "azurerm_firewall" "afw" {
   name                = local.afw_name
   location            = var.location
@@ -37,6 +41,7 @@ resource "azurerm_firewall" "afw" {
   }
 }
 
+# Create Route Table for AKS Subnet (routes traffic to Firewall)
 resource "azurerm_route_table" "afw_rt" {
   name                = local.afw_rt_name
   location            = var.location
@@ -50,32 +55,13 @@ resource "azurerm_route_table" "afw_rt" {
   }
 }
 
+# Associate Route Table with AKS Subnet
 resource "azurerm_subnet_route_table_association" "aks_snet_rt_assoc" {
-  subnet_id      = data.azurerm_subnet.aks_subnet.id  
+  subnet_id      = data.azurerm_subnet.aks_subnet.id
   route_table_id = azurerm_route_table.afw_rt.id
-
-  depends_on = [azurerm_firewall.afw]
 }
 
-resource "azurerm_route_table" "afw_subnet_rt" {
-  name                = join("-", [var.unique_id, "afw-subnet-rt"])
-  location            = var.location
-  resource_group_name = var.rg_name
-
-  route {
-    name           = "default-internet"
-    address_prefix = "0.0.0.0/0"
-    next_hop_type  = "Internet"
-  }
-}
-
-resource "azurerm_subnet_route_table_association" "afw_subnet_rt_assoc" {
-  subnet_id      = azurerm_subnet.afw_subnet.id 
-  route_table_id = azurerm_route_table.afw_subnet_rt.id
-}
-
-
-
+# Azure Firewall Application Rule Collection
 resource "azurerm_firewall_application_rule_collection" "afw_app_rule" {
   name                = local.app_rules_name
   azure_firewall_name = azurerm_firewall.afw.name
@@ -94,6 +80,7 @@ resource "azurerm_firewall_application_rule_collection" "afw_app_rule" {
   }
 }
 
+# Azure Firewall Network Rule Collection
 resource "azurerm_firewall_network_rule_collection" "afw_network_rule" {
   name                = local.afw_network_rule_name
   azure_firewall_name = azurerm_firewall.afw.name
@@ -116,6 +103,7 @@ resource "azurerm_firewall_network_rule_collection" "afw_network_rule" {
   }
 }
 
+# Azure Firewall NAT Rule Collection (for AKS NGINX access)
 resource "azurerm_firewall_nat_rule_collection" "afw_nat_rule" {
   name                = local.afw_nat_rule_name
   azure_firewall_name = azurerm_firewall.afw.name
@@ -123,18 +111,13 @@ resource "azurerm_firewall_nat_rule_collection" "afw_nat_rule" {
   priority            = 300
   action              = "Dnat"
 
-  dynamic "rule" {
-    for_each = {
-      "nginx" = { port = 80, translated_address = var.aks_loadbalancer_ip }
-    }
-    content {
-      name                  = rule.key
-      source_addresses      = ["*"]
-      destination_addresses = [azurerm_public_ip.afw_pip.ip_address]
-      destination_ports     = [rule.value.port]
-      translated_address    = rule.value.translated_address
-      translated_port       = rule.value.port # ✅ FIXED TRANSLATED PORT
-      protocols             = ["TCP"]
-    }
+  rule {
+    name                  = "nginx"
+    source_addresses      = ["*"]
+    destination_addresses = [azurerm_public_ip.afw_pip.ip_address]
+    destination_ports     = ["80"]
+    translated_address    = var.aks_loadbalancer_ip
+    translated_port       = "80"
+    protocols             = ["TCP"]
   }
 }
