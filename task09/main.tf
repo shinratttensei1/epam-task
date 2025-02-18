@@ -1,10 +1,3 @@
-resource "azurerm_resource_group" "rg" {
-  name     = local.rg_name
-  location = local.rg_location
-
-  tags = var.tags
-}
-
 module "afw" {
   source              = "./modules/afw"
   unique_id           = var.unique_id
