@@ -8,7 +8,7 @@ resource "azurerm_subnet" "afw_subnet" {
   name                 = "AzureFirewallSubnet"
   resource_group_name  = var.rg_name
   virtual_network_name = var.vnet_name
-  address_prefixes     = [var.subnet_space]
+  address_prefixes     = ["10.0.1.0/26"]
 }
 
 resource "azurerm_public_ip" "afw_pip" {
@@ -51,7 +51,7 @@ resource "azurerm_route_table" "afw_rt" {
 }
 
 resource "azurerm_subnet_route_table_association" "afw_rt_assoc" {
-  subnet_id      = azurerm_subnet.afw_subnet.id # ✅ FIXED
+  subnet_id      = azurerm_subnet.afw_subnet.id 
   route_table_id = azurerm_route_table.afw_rt.id
 }
 
