@@ -48,6 +48,12 @@ resource "azurerm_route_table" "afw_rt" {
     next_hop_type          = "VirtualAppliance"
     next_hop_in_ip_address = azurerm_firewall.afw.ip_configuration[0].private_ip_address
   }
+
+  route {
+    name           = "default-internet"
+    address_prefix = "0.0.0.0/0"
+    next_hop_type  = "Internet"
+  }
 }
 
 resource "azurerm_subnet_route_table_association" "afw_rt_assoc" {
