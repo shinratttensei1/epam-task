@@ -65,21 +65,24 @@ resource "azurerm_firewall_application_rule_collection" "afw_app_rule" {
   }
 }
 
-resource "azurerm_firewall_nat_rule_collection" "afw_nat_rule" {
-  name                = local.afw_nat_rule_name
+resource "azurerm_firewall_network_rule_collection" "afw_network_rule" {
+  name                = local.app_rules_name
   azure_firewall_name = azurerm_firewall.afw.name
   resource_group_name = var.rg_name
   priority            = 100
-  action              = "Dnat"
+  action              = "Allow"
 
-  rule {
-    name                  = "NginxInbound"
-    source_addresses      = ["*"]
-    destination_addresses = [azurerm_public_ip.afw_pip.ip_address]
-    destination_ports     = ["80"]
-    translated_address    = var.aks_loadbalancer_ip
-    translated_port       = "80"
-    protocols             = ["TCP"]
+  dynamic "rule" {
+    for_each = {
+      "AllowDNS" = { destination_addresses = ["168.63.129.16"], protocols = ["UDP"], destination_ports = ["53"] },
+      "AllowWeb" = { destination_addresses = ["*"], protocols = ["TCP"], destination_ports = ["443", "80"] }
+    }
+    content {
+      name                  = rule.key
+      source_addresses      = ["*"]
+      destination_addresses = rule.value.destination_addresses
+      destination_ports     = rule.value.destination_ports
+      protocols             = rule.value.protocols
+    }
   }
 }
-
