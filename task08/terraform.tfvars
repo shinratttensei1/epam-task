@@ -2,7 +2,7 @@
 prefix = "cmtr-cc456562-mod8"
 
 # Azure Location
-location = "eastus2"
+location = "West Europe"
 
 # Azure Resource Group Tags
 tags = {
