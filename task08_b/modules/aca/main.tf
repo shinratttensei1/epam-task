@@ -6,12 +6,17 @@ resource "azurerm_log_analytics_workspace" "aca_logs" {
   resource_group_name = var.resource_group
   sku                 = "PerGB2018"
   retention_in_days   = 30
+
+  tags = var.tags
 }
 
 resource "azurerm_user_assigned_identity" "aca_identity" {
   name                = "${var.aca_name}-identity"
   resource_group_name = var.resource_group
   location            = var.location
+
+  tags = var.tags
+
 }
 
 resource "azurerm_container_app_environment" "acae" {
@@ -19,6 +24,12 @@ resource "azurerm_container_app_environment" "acae" {
   resource_group_name        = var.resource_group
   location                   = var.location
   log_analytics_workspace_id = azurerm_log_analytics_workspace.aca_logs.id
+
+  workload_profile {
+    name                  = "Consumption"
+    workload_profile_type = "Consumption"
+  }
+  tags = var.tags
 }
 
 resource "azurerm_container_app" "aca" {
@@ -26,8 +37,9 @@ resource "azurerm_container_app" "aca" {
   resource_group_name          = var.resource_group
   container_app_environment_id = azurerm_container_app_environment.acae.id
   revision_mode                = "Single"
+  tags                         = var.tags
 
-
+  workload_profile_name = "Consumption"
   identity {
     type         = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.aca_identity.id]

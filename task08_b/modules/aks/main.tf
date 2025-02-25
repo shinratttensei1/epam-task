@@ -10,8 +10,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
   name                = var.aks_name
   location            = var.location
   resource_group_name = var.rg_name
-  dns_prefix          = "cmtr-cc456562-mod8b-aks-dns"
-
+  dns_prefix          = var.aks_dns_name
+  tags                = var.tags
   default_node_pool {
     name            = var.node_pool_name
     node_count      = var.node_pool_count

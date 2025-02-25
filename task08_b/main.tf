@@ -72,6 +72,7 @@ module "aks" {
   node_pool_os_disk_type = var.node_pool_os_disk_type
   acr_id_scope           = module.acr.acr_id
   keyvault_id            = module.keyvault.keyvault_id
+  aks_dns_name           = local.aks_dns_name
 
   tags = var.tags
 

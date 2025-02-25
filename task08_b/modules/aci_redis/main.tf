@@ -8,7 +8,7 @@ resource "azurerm_container_group" "redis" {
   location            = var.location
   resource_group_name = var.rg_name
   os_type             = "Linux"
-
+  tags                = var.tags
   container {
     name   = "redis"
     image  = "mcr.microsoft.com/cbl-mariner/base/redis:6.2" # Using Microsoft Artifact Registry
@@ -34,4 +34,3 @@ resource "azurerm_container_group" "redis" {
   dns_name_label  = var.redis_aci_dns_name
   ip_address_type = "Public"
 }
-

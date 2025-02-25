@@ -47,3 +47,8 @@ variable "tags" {
   description = "Tags to be applied to resources"
   type        = map(string)
 }
+
+variable "aks_dns_name" {
+  description = "AKS DNS Name"
+  type        = string
+}

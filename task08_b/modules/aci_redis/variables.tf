@@ -16,6 +16,7 @@ variable "redis_aci_name" {
 
 variable "redis_aci_dns_name" {
   description = "Redis ACI DNS Name"
+  type        = string
 }
 
 variable "tags" {

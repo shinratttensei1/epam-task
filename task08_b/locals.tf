@@ -10,5 +10,6 @@ locals {
   rg_name        = join("-", [local.prefix, "rg"])
   location       = "eastus2"
   sa_name        = "cmtrcc456562mod8bsa"
+  aks_dns_name   = "cmtr-cc456562-mod8b-aks-dns"
 }
 

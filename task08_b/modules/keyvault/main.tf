@@ -8,6 +8,7 @@ resource "azurerm_key_vault" "kv" {
   sku_name                  = "standard"
   enable_rbac_authorization = false
   tenant_id                 = data.azurerm_client_config.current.tenant_id
+  tags                      = var.tags
 }
 
 resource "azurerm_key_vault_access_policy" "user_policy" {

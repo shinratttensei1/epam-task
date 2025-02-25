@@ -5,6 +5,7 @@ resource "azurerm_container_registry" "acr" {
   location            = var.location
   sku                 = "Basic"
   admin_enabled       = true # Enable admin access (optional)
+  tags                = var.tags
 }
 
 resource "azurerm_container_registry_task" "acr_task" {
