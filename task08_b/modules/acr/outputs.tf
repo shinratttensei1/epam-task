@@ -7,3 +7,4 @@ output "acr_login_server" {
   description = "Azure Container Registry Login Server"
   value       = azurerm_container_registry.acr.login_server
 }
+

@@ -33,16 +33,6 @@ variable "keyvault_id" {
   type        = string
 }
 
-variable "redis_url_secret_id" {
-  description = "Key Vault Secret ID for Redis URL"
-  type        = string
-}
-
-variable "redis_password_secret_id" {
-  description = "Key Vault Secret ID for Redis Password"
-  type        = string
-}
-
 variable "acr_id_scope" {
   description = "ACR ID"
   type        = string
@@ -51,4 +41,24 @@ variable "acr_id_scope" {
 variable "tags" {
   description = "Tags to be applied to resources"
   type        = map(string)
+}
+
+variable "redis_url" {
+  description = "Key Vault Secret ID for Redis URL"
+  type        = string
+}
+
+variable "redis_password" {
+  description = "Key Vault Secret ID for Redis Password"
+  type        = string
+}
+
+variable "redis_url_secret_id" {
+  description = "Key Vault Secret ID for Redis URL"
+  type        = string
+}
+
+variable "redis_password_secret_id" {
+  description = "Key Vault Secret ID for Redis Password"
+  type        = string
 }

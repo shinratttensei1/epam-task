@@ -18,13 +18,9 @@ resource "kubectl_manifest" "app_deployment" {
   })
 
   wait_for {
-    condition {
-      type   = "Ready"
-      status = "True"
-    }
     field {
-      key   = "status.containerStatuses.[0].ready"
-      value = "true"
+      key   = "status.availableReplicas"
+      value = "1"
     }
   }
 
@@ -32,11 +28,15 @@ resource "kubectl_manifest" "app_deployment" {
 
 }
 
-
 resource "kubectl_manifest" "app_service" {
   yaml_body = file("./k8s-manifests/service.yaml")
-
-  depends_on = [kubectl_manifest.app_deployment]
+  wait_for {
+    field {
+      key        = "status.loadBalancer.ingress.[0].ip"
+      value      = "^(\\d+(\\.|$)){4}"
+      value_type = "regex"
+    }
+  }
 }
 
 data "kubernetes_service" "app_service" {
@@ -44,5 +44,6 @@ data "kubernetes_service" "app_service" {
     name      = "redis-flask-app-service"
     namespace = "default"
   }
-}
 
+  depends_on = [kubectl_manifest.app_service]
+}

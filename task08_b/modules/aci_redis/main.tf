@@ -14,16 +14,21 @@ resource "azurerm_container_group" "redis" {
     image  = "mcr.microsoft.com/cbl-mariner/base/redis:6.2" # Using Microsoft Artifact Registry
     cpu    = "1"
     memory = "1.5"
-    
-    commands = [
-      "redis-server", "--protected-mode", "no",
-      "--requirepass", random_password.redis_password.result
-    ]
 
     ports {
       port     = 6379
       protocol = "TCP"
     }
+
+    environment_variables = {
+      REDIS_PASSWORD = random_password.redis_password.result
+    }
+
+    commands = [
+      "redis-server", 
+      "--protected-mode", "no",
+      "--requirepass", random_password.redis_password.result
+    ]
   }
 
   dns_name_label = var.redis_aci_dns_name

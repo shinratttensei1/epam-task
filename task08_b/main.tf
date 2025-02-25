@@ -87,8 +87,10 @@ module "aca" {
   acr_login_server          = module.acr.acr_login_server
   docker_image_name         = var.docker_image_name
   keyvault_id               = module.keyvault.keyvault_id
-  redis_url_secret_id       = module.keyvault.redis_url_secret_id
-  redis_password_secret_id  = module.keyvault.redis_password_secret_id
+  redis_url_secret_id = module.keyvault.redis_url_secret_id
+  redis_password_secret_id = module.keyvault.redis_password_secret_id
+  redis_url       = module.keyvault.redis_hostname
+  redis_password  = module.keyvault.redis_password
   acr_id_scope = module.acr.acr_id
 
   tags                  = var.tags
@@ -139,4 +141,4 @@ module "k8s" {
     module.keyvault,
     module.aci_redis
   ]
-}
+} 

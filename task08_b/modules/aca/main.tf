@@ -1,8 +1,5 @@
 data "azurerm_client_config" "current" {}
 
-# ----------------------
-# Log Analytics Workspace for ACA Monitoring
-# ----------------------
 resource "azurerm_log_analytics_workspace" "aca_logs" {
   name                = "${var.aca_name}-logs"
   location            = var.location
@@ -11,29 +8,12 @@ resource "azurerm_log_analytics_workspace" "aca_logs" {
   retention_in_days   = 30
 }
 
-# ----------------------
-# User-Assigned Identity for ACA
-# ----------------------
 resource "azurerm_user_assigned_identity" "aca_identity" {
   name                = "${var.aca_name}-identity"
   resource_group_name = var.resource_group
   location            = var.location
 }
 
-# ----------------------
-# Key Vault Access Policy for ACA
-# ----------------------
-resource "azurerm_key_vault_access_policy" "aca_kv_policy" {
-  key_vault_id = var.keyvault_id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = azurerm_user_assigned_identity.aca_identity.principal_id
-
-  secret_permissions = ["Get", "List"]
-}
-
-# ----------------------
-# Azure Container App Environment (ACAE)
-# ----------------------
 resource "azurerm_container_app_environment" "acae" {
   name                       = var.aca_env_name
   resource_group_name        = var.resource_group
@@ -41,9 +21,6 @@ resource "azurerm_container_app_environment" "acae" {
   log_analytics_workspace_id = azurerm_log_analytics_workspace.aca_logs.id
 }
 
-# ----------------------
-# Azure Container App (ACA)
-# ----------------------
 resource "azurerm_container_app" "aca" {
   name                         = var.aca_name
   resource_group_name          = var.resource_group
@@ -63,7 +40,7 @@ resource "azurerm_container_app" "aca" {
 
   ingress {
     external_enabled = true
-    target_port      = 5000
+    target_port      = 8080
     transport        = "auto"
 
     traffic_weight {
@@ -74,7 +51,7 @@ resource "azurerm_container_app" "aca" {
 
   template {
     min_replicas = 1
-    max_replicas = 3  # Auto Scaling Handles More Load
+    max_replicas = 3 
 
     container {
       name   = "app"
@@ -99,25 +76,7 @@ resource "azurerm_container_app" "aca" {
 
       env {
         name        = "REDIS_PWD"
-        secret_name = "redis-password"
-      }
-    }
-
-    custom_scale_rule {
-      name            = "http-scale-rule"
-      custom_rule_type = "http"
-
-      metadata = {
-        concurrentRequests = "50"
-      }
-    }
-
-    custom_scale_rule {
-      name            = "tcp-scale-rule"
-      custom_rule_type = "tcp"
-
-      metadata = {
-        concurrentConnections = "20"
+        secret_name = "redis-key"
       }
     }
   }
@@ -129,7 +88,7 @@ resource "azurerm_container_app" "aca" {
   }
 
   secret {
-    name                = "redis-password"
+    name                = "redis-key"
     key_vault_secret_id = var.redis_password_secret_id
     identity            = azurerm_user_assigned_identity.aca_identity.id
   }
@@ -141,4 +100,12 @@ resource "azurerm_role_assignment" "aca_acr_pull" {
   scope                = var.acr_id_scope
   role_definition_name = "AcrPull"
   principal_id         = azurerm_user_assigned_identity.aca_identity.principal_id
+}
+
+resource "azurerm_key_vault_access_policy" "aca_kv_access" {
+  key_vault_id = var.keyvault_id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = azurerm_user_assigned_identity.aca_identity.principal_id
+
+  secret_permissions = ["Get", "List"]
 }
