@@ -5,7 +5,6 @@ output "redis_password" {
 output "redis_fqdn" {
   value       = azurerm_container_group.redis.fqdn
   description = "Redis Hostname"
-  sensitive   = true
 }
 
 output "redis_dns_name" {
