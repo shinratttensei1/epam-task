@@ -25,13 +25,13 @@ resource "azurerm_container_group" "redis" {
     }
 
     commands = [
-      "redis-server", 
+      "redis-server",
       "--protected-mode", "no",
       "--requirepass", random_password.redis_password.result
     ]
   }
 
-  dns_name_label = var.redis_aci_dns_name
+  dns_name_label  = var.redis_aci_dns_name
   ip_address_type = "Public"
 }
 

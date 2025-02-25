@@ -5,7 +5,7 @@ variable "rg_name" {
 
 variable "location" {
   description = "RG Location"
-  type = string
+  type        = string
 }
 
 variable "redis_aci_name" {
