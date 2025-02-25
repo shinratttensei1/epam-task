@@ -2,12 +2,12 @@
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "kv" {
-  name                        = var.kv_name
-  location                    = var.location
-  resource_group_name         = var.rg_name
-  sku_name                    = "standard"
-  enable_rbac_authorization   = false
-  tenant_id                   = data.azurerm_client_config.current.tenant_id
+  name                      = var.kv_name
+  location                  = var.location
+  resource_group_name       = var.rg_name
+  sku_name                  = "standard"
+  enable_rbac_authorization = false
+  tenant_id                 = data.azurerm_client_config.current.tenant_id
 }
 
 resource "azurerm_key_vault_access_policy" "user_policy" {

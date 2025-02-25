@@ -34,7 +34,7 @@ resource "azurerm_container_app" "aca" {
   }
 
   registry {
-    server = var.acr_login_server
+    server   = var.acr_login_server
     identity = azurerm_user_assigned_identity.aca_identity.id
   }
 
@@ -51,7 +51,7 @@ resource "azurerm_container_app" "aca" {
 
   template {
     min_replicas = 1
-    max_replicas = 3 
+    max_replicas = 3
 
     container {
       name   = "app"
@@ -93,7 +93,7 @@ resource "azurerm_container_app" "aca" {
     identity            = azurerm_user_assigned_identity.aca_identity.id
   }
 
-  depends_on = [azurerm_role_assignment.aca_acr_pull] 
+  depends_on = [azurerm_role_assignment.aca_acr_pull]
 }
 
 resource "azurerm_role_assignment" "aca_acr_pull" {

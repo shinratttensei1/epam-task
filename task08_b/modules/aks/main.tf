@@ -18,7 +18,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     vm_size         = var.node_pool_vm_size
     os_disk_type    = var.node_pool_os_disk_type
     os_disk_size_gb = 64
-}
+  }
 
   identity {
     type         = "UserAssigned"
@@ -26,8 +26,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   network_profile {
-    network_plugin    = "azure"
-    }
+    network_plugin = "azure"
+  }
 
   key_vault_secrets_provider {
     secret_rotation_enabled = true

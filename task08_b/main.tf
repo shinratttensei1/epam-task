@@ -2,7 +2,7 @@ resource "azurerm_resource_group" "rg" {
   name     = local.rg_name
   location = local.location
 
-  tags                  = var.tags
+  tags = var.tags
 }
 
 module "aci_redis" {
@@ -12,7 +12,7 @@ module "aci_redis" {
   redis_aci_name     = local.redis_aci_name
   redis_aci_dns_name = var.redis_aci_dns_name
 
-  tags                  = var.tags
+  tags = var.tags
 
   depends_on = [
     azurerm_resource_group.rg
@@ -28,7 +28,7 @@ module "keyvault" {
   redis_hostname        = module.aci_redis.redis_fqdn
   random_redis_password = module.aci_redis.redis_password
 
-  tags                  = var.tags
+  tags = var.tags
 
   depends_on = [
     module.aci_redis
@@ -36,14 +36,14 @@ module "keyvault" {
 }
 
 module "storage" {
-  source             = "./modules/storage"
+  source               = "./modules/storage"
   storage_account_name = local.sa_name
-  resource_group     = azurerm_resource_group.rg.name
-  location           = azurerm_resource_group.rg.location
-  container_name     = "app-content"
-  archive_blob_name  = "app.tar.gz"
+  resource_group       = azurerm_resource_group.rg.name
+  location             = azurerm_resource_group.rg.location
+  container_name       = "app-content"
+  archive_blob_name    = "app.tar.gz"
 
-  tags                  = var.tags
+  tags = var.tags
 }
 
 module "acr" {
@@ -57,43 +57,43 @@ module "acr" {
   sas_token              = module.storage.sas_token
   docker_image_name      = var.docker_image_name
 
-  tags                  = var.tags
+  tags = var.tags
 }
 
 
 module "aks" {
-  source               = "./modules/aks"
-  aks_name             = local.aks_name
-  rg_name       = azurerm_resource_group.rg.name
-  location             = azurerm_resource_group.rg.location
-  node_pool_name       = var.node_pool_name
-  node_pool_count      = var.node_pool_count
-  node_pool_vm_size    = var.node_pool_vm_size
+  source                 = "./modules/aks"
+  aks_name               = local.aks_name
+  rg_name                = azurerm_resource_group.rg.name
+  location               = azurerm_resource_group.rg.location
+  node_pool_name         = var.node_pool_name
+  node_pool_count        = var.node_pool_count
+  node_pool_vm_size      = var.node_pool_vm_size
   node_pool_os_disk_type = var.node_pool_os_disk_type
-  acr_id_scope = module.acr.acr_id
-  keyvault_id          = module.keyvault.keyvault_id
+  acr_id_scope           = module.acr.acr_id
+  keyvault_id            = module.keyvault.keyvault_id
 
-  tags                  = var.tags
+  tags = var.tags
 
   depends_on = [module.acr, module.keyvault]
 }
 
 module "aca" {
-  source                    = "./modules/aca"
-  aca_name                  = local.aca_name
-  aca_env_name              = local.aca_env_name
-  resource_group            = azurerm_resource_group.rg.name
-  location                  = azurerm_resource_group.rg.location
-  acr_login_server          = module.acr.acr_login_server
-  docker_image_name         = var.docker_image_name
-  keyvault_id               = module.keyvault.keyvault_id
-  redis_url_secret_id = module.keyvault.redis_url_secret_id
+  source                   = "./modules/aca"
+  aca_name                 = local.aca_name
+  aca_env_name             = local.aca_env_name
+  resource_group           = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  acr_login_server         = module.acr.acr_login_server
+  docker_image_name        = var.docker_image_name
+  keyvault_id              = module.keyvault.keyvault_id
+  redis_url_secret_id      = module.keyvault.redis_url_secret_id
   redis_password_secret_id = module.keyvault.redis_password_secret_id
-  redis_url       = module.keyvault.redis_hostname
-  redis_password  = module.keyvault.redis_password
-  acr_id_scope = module.acr.acr_id
+  redis_url                = module.keyvault.redis_hostname
+  redis_password           = module.keyvault.redis_password
+  acr_id_scope             = module.acr.acr_id
 
-  tags                  = var.tags
+  tags = var.tags
 
   depends_on = [module.acr, module.keyvault]
 }
@@ -119,15 +119,15 @@ provider "kubectl" {
 }
 
 module "k8s" {
-  source = "./modules/k8s"
-  aks_identity_id = module.aks.aks_kv_access_identity_id
-  kv_name = local.keyvault_name
-  acr_login_server = module.acr.acr_login_server
+  source            = "./modules/k8s"
+  aks_identity_id   = module.aks.aks_kv_access_identity_id
+  kv_name           = local.keyvault_name
+  acr_login_server  = module.acr.acr_login_server
   docker_image_name = var.docker_image_name
 
   rg_name = azurerm_resource_group.rg.name
 
-  tags = var.tags 
+  tags = var.tags
 
   providers = {
     kubectl    = kubectl

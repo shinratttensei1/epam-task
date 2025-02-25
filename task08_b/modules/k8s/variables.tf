@@ -15,15 +15,15 @@ variable "tags" {
 
 variable "aks_identity_id" {
   description = "AKS Identity ID"
-  type = string
+  type        = string
 }
 
 variable "acr_login_server" {
   description = "ACR Login Server"
-  type = string
+  type        = string
 }
 
 variable "docker_image_name" {
   description = "Docker Image Name"
-  type = string
+  type        = string
 }

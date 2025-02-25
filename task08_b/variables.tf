@@ -15,7 +15,7 @@ variable "tags" {
 
 variable "docker_image_name" {
   description = "Docker Image Name"
-  type = string
+  type        = string
 }
 
 variable "node_pool_name" {
